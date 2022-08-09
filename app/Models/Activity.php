@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model {
     use HasFactory;
 
-    protected $fillable = ['description', 'due_date', 'completed', 'responsibility', 'recipient'];
+    protected $fillable = ['description', 'due_date', 'completed', 'responsibility', 'recipient', 'remarks'];
 
     public function responsibilityx() {
         return UserGroup::find($this->responsibility);

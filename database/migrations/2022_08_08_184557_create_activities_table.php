@@ -14,10 +14,11 @@ return new class extends Migration {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->date('due_date');
+            $table->dateTime('due_date');
             $table->integer('responsibility')->unsigned();
             $table->integer('recipient')->unsigned();
             $table->boolean('completed')->default(false);
+            $table->text('remarks')->nullable();
             $table->timestamps();
         });
     }

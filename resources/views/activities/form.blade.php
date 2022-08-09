@@ -54,6 +54,15 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-2 text-end'])
+                        !!}
+                        <div class="col-sm-8 col-md-8">
+                            {!! Form::textarea('remarks', null,['class'=>'form-control col-md-7 col-xs-8
+                            ','placeholder'=>'Remarks', 'rows'=>'4']) !!}
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <div class="offset-sm-2 mt-2">
                             <button type="submit" class="btn btn-dark">{{ $activity->exists ? @"Update" : @"Create" }}</button>

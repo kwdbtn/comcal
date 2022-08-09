@@ -38,6 +38,7 @@ class ActivityController extends Controller {
             'due_date'       => $request->due_date,
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
+            'remarks'        => $request->remarks,
         ]);
 
         return redirect()->route('activities.index');
@@ -50,7 +51,7 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Activity $activity) {
-        //
+        return view('activities.show', compact('activity'));
     }
 
     /**
@@ -76,6 +77,7 @@ class ActivityController extends Controller {
             'due_date'       => Carbon::createFromFormat('Y-m-d', $request->due_date),
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
+            'remarks'        => $request->remarks,
         ]);
 
         return redirect()->route('activities.index');
