@@ -11,12 +11,11 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('activities', function (Blueprint $table) {
+        Schema::create('sub_activities', function (Blueprint $table) {
             $table->id();
+            $table->integer('activity_id')->unsigned();
             $table->string('description');
             $table->date('due_date');
-            $table->integer('responsibility')->unsigned();
-            $table->integer('recipient')->unsigned();
             $table->boolean('completed')->default(false);
             $table->text('remarks')->nullable();
             $table->timestamps();
@@ -29,6 +28,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('activities');
+        Schema::dropIfExists('sub_activities');
     }
 };

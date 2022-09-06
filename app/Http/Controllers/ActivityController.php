@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller {
@@ -33,15 +32,16 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        Activity::create([
+        // dd($request);
+        $activity = Activity::create([
             'description'    => $request->description,
-            'due_date'       => $request->due_date,
+            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
             'remarks'        => $request->remarks,
         ]);
 
-        return redirect()->route('activities.index');
+        return redirect()->route('activities.show', $activity);
     }
 
     /**
@@ -74,7 +74,7 @@ class ActivityController extends Controller {
     public function update(Request $request, Activity $activity) {
         $activity->update([
             'description'    => $request->description,
-            'due_date'       => Carbon::createFromFormat('Y-m-d', $request->due_date),
+            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
             'remarks'        => $request->remarks,

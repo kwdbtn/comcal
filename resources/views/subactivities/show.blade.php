@@ -9,7 +9,7 @@
                     <h6>
                         <strong><span style="color: red">|</span>Activity</strong>
                         <span>
-                            <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
+                            <a href="{{ route('activities.show', $activity) }}" class="btn btn-sm btn-dark float-end">Back</a>
                         </span>
                     </h6>
                     <small>{{ $activity->description }}</small>
@@ -17,13 +17,13 @@
             </div>
 
             <div class="row">
-                <div class="col-md-7 pr-0 mr-0">
+                <div class="col-md-12 pr-0 mr-0">
                     <div class="card mt-0">
                         <div class="card-body">
                             <div class="form-group row">
-                                {!! Form::label('description', 'Description:', ['class' => 'control-label col-sm-3']) !!}
+                                {!! Form::label('description', 'Sub-Activity:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('description', $activity->description, ['class'=>'control-label
+                                    <h6>{!! Form::label('description', $subactivity->description, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}</h6>
@@ -34,31 +34,7 @@
                             <div class="form-group row">
                                 {!! Form::label('due_date', 'Due Date:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('due_date', $activity->due_date, ['class'=>'control-label
-                                        col-md-12
-                                        col-xs-12'])
-                                        !!}
-                                    </h6>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="form-group row">
-                                {!! Form::label('responsibility', 'Responsibility:', ['class' => 'control-label col-sm-3']) !!}
-                                <div class="col-sm-9">
-                                    <h6>{!! Form::label('responsibility', $activity->responsibilityx()->name, ['class'=>'control-label
-                                        col-md-12
-                                        col-xs-12'])
-                                        !!}
-                                    </h6>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="form-group row">
-                                {!! Form::label('recipient', 'Recipient/Oversight Body:', ['class' => 'control-label col-sm-3']) !!}
-                                <div class="col-sm-9">
-                                    <h6>{!! Form::label('recipient', $activity->recipientx()->name, ['class'=>'control-label
+                                    <h6>{!! Form::label('due_date', $subactivity->due_date, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -70,7 +46,7 @@
                             <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('remarks', $activity->remarks, ['class'=>'control-label
+                                    <h6>{!! Form::label('remarks', $subactivity->remarks, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -81,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="col-md-5 pl-0 ml-0">
+            {{-- <div class="col-md-5 pl-0 ml-0">
                 <div class="card mt-0">
                     <div class="card-body">
                         <h6>
@@ -92,20 +68,15 @@
                         </h6>
                         <hr>
                         <div class="form-group row">
-
-                            @if ($activity->subactivities->isEmpty())
-                                <span>No sub-activities</span>
-                            @else
-                                {{-- <ol> --}}
-                                    @foreach ($activity->subactivities as $subactivity)
-                                        <span><a href="{{ route('subactivities.show', [$activity, $subactivity]) }}">{{ $subactivity->description }}</a></span>
-                                    @endforeach
-                                {{-- </ol> --}}
-                            @endif                            
+                            <ol>
+                                @foreach ($activity->subactivities as $subactivity)
+                                    <li><a href="{{ route('subactivities.show', [$activity, $subactivity]) }}">{{ $subactivity->description }}</a></li>
+                                @endforeach
+                            </ol>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

@@ -7,15 +7,15 @@
             <div class="card">
                 <div class="card-body">
                     <h4>
-                        <strong>{{ $activity->exists ? "Editing '".$activity->name."'" : "New activity" }}</strong>
+                        <strong>{{ $subactivity->exists ? "Editing '".$subactivity->name."'" : "New Sub-Activity" }}</strong>
                         <span>
-                            <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
+                            <a href="{{ route('activities.show', $activity) }}" class="btn btn-sm btn-dark float-end">Back</a>
                         </span>
                     </h4>
                     <hr>
 
-                    {!! Form::model($activity, ['method' => $activity->exists ? 'PUT' : 'POST', 
-                    'route' => $activity->exists ? ['activities.update', $activity] : ['activities.store'],
+                    {!! Form::model($subactivity, ['method' => $subactivity->exists ? 'PUT' : 'POST', 
+                    'route' => $subactivity->exists ? ['subactivities.update', $subactivity] : ['subactivities.store', $activity],
                     'class' => 'form-horizontal'])
                     !!}
 
@@ -41,20 +41,6 @@
                     </div>
 
                     <div class="form-group row mt-1">
-                        {!! Form::label('responsibility', 'Responsibility:', ['class' => 'control-label col-sm-2 text-end']) !!}
-                        <div class="col-sm-8">
-                            {{Form::select('responsibility', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-1">
-                        {!! Form::label('recipient', 'Recipient/ Oversight Body:', ['class' => 'control-label col-sm-2 text-end']) !!}
-                        <div class="col-sm-8">
-                            {{Form::select('recipient', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-2 text-end'])
                         !!}
                         <div class="col-sm-8 col-md-8">
@@ -65,7 +51,7 @@
 
                     <div class="form-group">
                         <div class="offset-sm-2 mt-2">
-                            <button type="submit" class="btn btn-sm btn-dark">{{ $activity->exists ? @"Update" : @"Add" }}</button>
+                            <button type="submit" class="btn btn-sm btn-dark">{{ $subactivity->exists ? @"Update" : @"Add" }}</button>
                         </div>
                     </div>
                     {!! Form::close() !!}

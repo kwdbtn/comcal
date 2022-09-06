@@ -17,4 +17,8 @@ class Activity extends Model {
     public function recipientx() {
         return UserGroup::find($this->recipient);
     }
+
+    public function subactivities() {
+        return $this->hasMany(SubActivity::class);
+    }
 }

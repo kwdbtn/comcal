@@ -31,9 +31,9 @@
                                 <td>{{ $activity->recipientx()->name }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('activities.show', $activity) }}"
-                                    class="btn btn-sm btn-outline-primary">View</a>
+                                    class="btn btn-sm btn-primary">View</a>
                                     <a href="{{ route('activities.edit', $activity) }}"
-                                    class="btn btn-sm btn-outline-info">Edit</a>
+                                    class="btn btn-sm btn-info">Edit</a>
                                 </td>
                             </tr>
                             @endforeach @endif
