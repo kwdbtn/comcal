@@ -33,7 +33,8 @@ class UserGroupController extends Controller {
      */
     public function store(Request $request) {
         $usergroup = UserGroup::create([
-            'name' => $request->name,
+            'name'     => $request->name,
+            'teamlead' => $request->teamlead,
         ]);
 
         $usergroup->users()->sync($request->input('users'));

@@ -35,7 +35,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('usergroups.index') }}">User Groups</a>
+                            <a class="nav-link" href="{{ route('activities.index') }}">Activities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('usergroups.index') }}">Teams</a>
                         </li>
                     </ul>
 
@@ -55,6 +58,15 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <button type="button" class="btn btn-sm btn-outline-primary position-relative">
+                                Inbox
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    {{ $activitycount }}
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                                </button>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

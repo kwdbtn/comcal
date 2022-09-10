@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class SubActivity extends Model
-{
+class SubActivity extends Activity {
     use HasFactory;
 
     protected $fillable = ['description', 'due_date', 'completed', 'remarks'];

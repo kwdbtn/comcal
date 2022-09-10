@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>User Groups</strong>
+            <h4 class="card-title"><strong>All Teams</strong>
                 <span class="float-right"><a href="{{ route('usergroups.create') }}" class="btn btn-sm btn-dark float-end">Add New</a></span>
             </h4>
 
@@ -14,7 +14,8 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Users</th>
+                            <th scope="col">Team Lead</th>
+                            <th scope="col">Team</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -24,6 +25,7 @@
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $usergroup->name }}</td>
+                                <td>{{ $usergroup->teamleader()->name }}</td>
                                 <td>
                                     @foreach ($usergroup->users as $user)
                                         <span class="badge bg-primary">{{ $user->name }}</span>

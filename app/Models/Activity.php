@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model {
     use HasFactory;
 
-    protected $fillable = ['description', 'due_date', 'completed', 'responsibility', 'recipient', 'remarks'];
+    protected $fillable = ['description', 'due_date', 'priority', 'status', 'responsibility', 'recipient', 'remarks'];
 
     public function responsibilityx() {
         return UserGroup::find($this->responsibility);
@@ -20,5 +20,9 @@ class Activity extends Model {
 
     public function subactivities() {
         return $this->hasMany(SubActivity::class);
+    }
+
+    public function actions() {
+        return $this->hasMany(ActivityAction::class);
     }
 }

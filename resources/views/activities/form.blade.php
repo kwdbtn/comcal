@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body">
                     <h4>
-                        <strong>{{ $activity->exists ? "Editing '".$activity->name."'" : "New activity" }}</strong>
+                        <strong>{{ $activity->exists ? "Editing Activity" : "New Activity" }}</strong>
                         <span>
                             <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
                         </span>
@@ -25,6 +25,13 @@
                         <div class="col-sm-8 col-md-8">
                             {!! Form::text('description', null,['class'=>'form-control col-md-7 col-xs-8
                             ','placeholder'=>'Description', 'required']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-1">
+                        {!! Form::label('priority', 'Priority:', ['class' => 'control-label col-sm-2 text-end']) !!}
+                        <div class="col-sm-8">
+                            {{Form::select('priority', $arr['priority'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
                         </div>
                     </div>
 

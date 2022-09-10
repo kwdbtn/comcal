@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Activity;
 use App\Models\User;
 use App\Models\UserGroup;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +36,27 @@ class ComposerServiceProvider extends ServiceProvider {
 
             $arr = [
                 'usergroups' => UserGroup::pluck('name', 'id'),
+                'priority'   => [
+                    'Low'    => 'Low',
+                    'Medium' => 'Medium',
+                    'High'   => 'High',
+                ],
+            ];
+
+            $view->with('arr', $arr);
+        });
+
+        view()->composer('layouts.app', function ($view) {
+            $view->with('activitycount', Activity::count());
+        });
+
+        view()->composer('activityactions.form', function ($view) {
+
+            $arr = [
+                'status' => [
+                    'In Progress' => 'In Progress',
+                    'Completed'   => 'Completed',
+                ],
             ];
 
             $view->with('arr', $arr);

@@ -14,9 +14,9 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Priority</th>
                             <th scope="col">Due Date</th>
                             <th scope="col">Responsibility</th>
-                            <th scope="col">Recipient/Oversight Body</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -25,10 +25,14 @@
                             @else @foreach ($activities as $activity)
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $activity->description }}</td>
+                                <td>
+                                    <a href="{{ route('activities.show', $activity) }}">
+                                        {{ $activity->description }}
+                                    </a>
+                                </td>
+                                <td>{{ $activity->priority }}</td>
                                 <td>{{ $activity->due_date }}</td>
                                 <td>{{ $activity->responsibilityx()->name }}</td>
-                                <td>{{ $activity->recipientx()->name }}</td>
                                 <td class="text-center">
                                     <a href="{{ route('activities.show', $activity) }}"
                                     class="btn btn-sm btn-primary">View</a>

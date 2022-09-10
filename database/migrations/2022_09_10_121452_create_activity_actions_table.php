@@ -11,11 +11,12 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('user_groups', function (Blueprint $table) {
+        Schema::create('activity_actions', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('teamlead')->unsigned();
-            $table->boolean('active')->default(true);
+            $table->integer('activity_id')->unsigned();
+            $table->text('action_taken');
+            $table->text('challenge');
+            $table->integer('actor')->unsigned();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('user_groups');
+        Schema::dropIfExists('actions');
     }
 };

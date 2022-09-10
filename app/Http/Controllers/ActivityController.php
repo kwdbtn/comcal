@@ -35,6 +35,7 @@ class ActivityController extends Controller {
         // dd($request);
         $activity = Activity::create([
             'description'    => $request->description,
+            'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
@@ -51,6 +52,13 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Activity $activity) {
+        $users = $activity->responsibilityx()->users;
+        if ($users->contains(auth()->user()) && $activity->status == "Not Started") {
+            $activity->update([
+                'status' => "Started",
+            ]);
+        }
+
         return view('activities.show', compact('activity'));
     }
 
@@ -74,13 +82,14 @@ class ActivityController extends Controller {
     public function update(Request $request, Activity $activity) {
         $activity->update([
             'description'    => $request->description,
+            'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
             'recipient'      => $request->recipient,
             'remarks'        => $request->remarks,
         ]);
 
-        return redirect()->route('activities.index');
+        return redirect()->route('activities.show', $activity);
     }
 
     /**

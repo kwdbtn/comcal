@@ -69,7 +69,7 @@ class SubActivityController extends Controller {
      * @param  \App\Models\SubActivity  $subActivity
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubActivity $subActivity) {
+    public function update(Request $request, SubActivity $subactivity) {
         //
     }
 

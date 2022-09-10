@@ -5,21 +5,27 @@
     <div class="row justified-content-center">
         <div class="col-md-12">
             <div class="card mb-2">
-                <div class="card-body pb-2">
+                <div class="card-body">
                     <h6>
-                        <strong><span style="color: red">|</span>Activity</strong>
-                        <span>
-                            <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
-                        </span>
+                        <strong><span style="color: red">|&nbsp;</span>Activity</strong>
+                        <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with button groups">
+                            <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
+                                <a href="{{ route('activityactions.create', $activity) }}" class="btn btn-sm btn-primary">Update Activity</a>
+                            </div>
+                            <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
+                                <a href="{{ route('activities.edit', $activity) }}" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
+                            </div>
+                        </div>
                     </h6>
-                    <small>{{ $activity->description }}</small>
+                    <small>{{ $activity->priority }} Priority | {{ $activity->status }}</small>
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-md-7 pr-0 mr-0">
-                    <div class="card mt-0">
-                        <div class="card-body">
+                <div class="col-md-7" style="padding-right: 2px">
+                    <div class="card">
+                        <div class="card-body" style="height: 400px; overflow: auto">
                             <div class="form-group row">
                                 {!! Form::label('description', 'Description:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
@@ -81,11 +87,11 @@
                 </div>
             </div>
 
-            <div class="col-md-5 pl-0 ml-0">
-                <div class="card mt-0">
-                    <div class="card-body">
+            <div class="col-md-5" style="padding-left: 2px">
+                <div class="card">
+                    <div class="card-body" style="height: 400px; overflow: auto">
                         <h6>
-                            <span>Sub-Activities</span>
+                            <span>Sub-Activities ({{ $activity->subactivities->count() }})</span>
                             <span>
                                 <a href="{{ route('subactivities.create', $activity) }}" class="btn btn-sm btn-dark float-end">Add</a>
                             </span>
@@ -102,6 +108,32 @@
                                     @endforeach
                                 {{-- </ol> --}}
                             @endif                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <div class="row">
+                <div class="col-md-6" style="padding-right: 2px">
+                    <div class="card">
+                        <div class="card-body" style="height: 400px; overflow: auto">
+                            <strong><span style="color: red">|&nbsp;</span>Updates</strong> <hr>
+                            @foreach ($activity->actions as $action)
+                                <h6>
+                                    {{ $loop->iteration }}. {{ $action->action_taken }} <br>
+                                    &emsp;<small>{{ $action->created_at }}</small> <br>
+                                    &emsp;{{ $action->actorx()->name }}
+                                </h6>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" style="padding-left: 2px">
+                    <div class="card">
+                        <div class="card-body" style="height: 400px; overflow: auto">
+                            <strong><span style="color: red">|&nbsp;</span>Audit Trail</strong> <hr>
                         </div>
                     </div>
                 </div>

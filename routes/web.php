@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityActionController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\SubActivityController;
 use App\Http\Controllers\UserGroupController;
@@ -26,6 +27,13 @@ Route::get('activities/{activity}/subactivities/{subactivity}', [SubActivityCont
 Route::get('activities/{activity}/subactivities/{subactivity}/edit', [SubActivityController::class, 'edit'])->name('subactivities.edit');
 Route::post('activities/{activity}/subactivities', [SubActivityController::class, 'store'])->name('subactivities.store');
 Route::put('activities/{activity}/subactivities/{subactivity}', [SubActivityController::class, 'update'])->name('subactivities.update');
+
+Route::get('activities/{activity}/actions', [ActivityActionController::class, 'index'])->name('activityactions.index');
+Route::get('activities/{activity}/actions/create', [ActivityActionController::class, 'create'])->name('activityactions.create');
+Route::get('activities/{activity}/actions/{activityaction}', [ActivityActionController::class, 'show'])->name('activityactions.show');
+Route::get('activities/{activity}/actions/{activityaction}/edit', [ActivityActionController::class, 'edit'])->name('activityactions.edit');
+Route::post('activities/{activity}/actions', [ActivityActionController::class, 'store'])->name('activityactions.store');
+Route::put('activities/{activity}/actions/{activityaction}', [ActivityActionController::class, 'update'])->name('activityactions.update');
 
 Route::resources([
     'usergroups' => UserGroupController::class,
