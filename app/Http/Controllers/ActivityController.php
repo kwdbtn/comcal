@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity as AuditLog;
 
@@ -13,8 +14,26 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $activities = Activity::all();
+        $activities = Activity::orderBy('created_at', 'desc')->get();
         $title      = "All Activities";
+        return view('activities.index', compact('activities', 'title'));
+    }
+
+    public function inbox() {
+        $inboxActivities = [];
+        $title           = 'Activities assigned to me';
+
+        $usergroups = auth()->user()->usergroups;
+
+        foreach ($usergroups as $usergroup) {
+            foreach ($usergroup->activities as $activity) {
+                array_push($inboxActivities, $activity);
+            }
+        }
+
+        $inboxActivities = new Collection($inboxActivities);
+        $activities      = new Collection($inboxActivities->where('status', '<>', 'Completed')->all());
+
         return view('activities.index', compact('activities', 'title'));
     }
 
@@ -41,6 +60,7 @@ class ActivityController extends Controller {
             'responsibility' => $request->responsibility,
             'user_group_id'  => $request->recipient,
             'remarks'        => $request->remarks,
+            'created_by'     => auth()->user()->id,
         ]);
 
         return redirect()->route('activities.show', $activity);

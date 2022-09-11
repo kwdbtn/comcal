@@ -4,11 +4,11 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>All Teams</strong>
+            <h4 class="card-title">All Teams
                 <span class="float-right"><a href="{{ route('usergroups.create') }}" class="btn btn-sm btn-dark float-end">Add New</a></span>
-            </h4>
+            </h4> <hr>
 
-            <div class="table-responsive table-striped">
+            <div class="table-responsive">
                 <table class="table table-bordered table-myDataTable">
                     <thead class="thead-light">
                         <tr>
@@ -16,7 +16,7 @@
                             <th scope="col">Name</th>
                             <th scope="col">Team Lead</th>
                             <th scope="col">Team</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,10 +32,10 @@
                                     @endforeach
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('usergroups.show', $usergroup) }}"
-                                    class="btn btn-sm btn-outline-primary">View</a>
-                                    <a href="{{ route('usergroups.edit', $usergroup) }}"
-                                    class="btn btn-sm btn-outline-info">Edit</a>
+                                    <div class="btn-group" role="group">
+                                        <a href="{{ route('usergroups.show', $usergroup) }}" class="btn btn-sm btn-primary">View</a>
+                                    <a href="{{ route('usergroups.edit', $usergroup) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach @endif

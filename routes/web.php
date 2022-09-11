@@ -19,7 +19,23 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\ActivityController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// ------------------------------------------------ Dashboard --------------------------------------------------------------------------
+
+Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+
+// ------------------------------------------------ Activities -------------------------------------------------------------------------
+
+Route::get('activities', [ActivityController::class, 'index'])->name('activities.index');
+Route::get('activities/inbox', [ActivityController::class, 'inbox'])->name('activities.inbox');
+Route::get('activities/create', [ActivityController::class, 'create'])->name('activities.create');
+Route::get('activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
+Route::get('activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
+Route::post('activities', [ActivityController::class, 'store'])->name('activities.store');
+Route::put('activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
+
+// ------------------------------------------------ Sub-Activities ----------------------------------------------------------------------
 
 Route::get('activities/{activity}/subactivities', [SubActivityController::class, 'index'])->name('subactivities.index');
 Route::get('activities/{activity}/subactivities/create', [SubActivityController::class, 'create'])->name('subactivities.create');
@@ -27,6 +43,8 @@ Route::get('activities/{activity}/subactivities/{subactivity}', [SubActivityCont
 Route::get('activities/{activity}/subactivities/{subactivity}/edit', [SubActivityController::class, 'edit'])->name('subactivities.edit');
 Route::post('activities/{activity}/subactivities', [SubActivityController::class, 'store'])->name('subactivities.store');
 Route::put('activities/{activity}/subactivities/{subactivity}', [SubActivityController::class, 'update'])->name('subactivities.update');
+
+// ------------------------------------------------ Activity Actions --------------------------------------------------------------------
 
 Route::get('activities/{activity}/actions', [ActivityActionController::class, 'index'])->name('activityactions.index');
 Route::get('activities/{activity}/actions/create', [ActivityActionController::class, 'create'])->name('activityactions.create');
@@ -37,5 +55,5 @@ Route::put('activities/{activity}/actions/{activityaction}', [ActivityActionCont
 
 Route::resources([
     'usergroups' => UserGroupController::class,
-    'activities' => ActivityController::class,
+    // 'activities' => ActivityController::class,
 ]);

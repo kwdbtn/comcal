@@ -12,6 +12,8 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js">
 </script>
 <script src="https://use.fontawesome.com/b25b26d330.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"  charset=utf-8 defer></script>
 <script>
     // $(document).ready(function () {
     //     $('.table-report').dataTable({

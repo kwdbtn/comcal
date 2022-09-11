@@ -8,10 +8,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css')}}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css" integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
@@ -24,6 +27,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
+                <img src="{{ asset('img/favicon.png') }}" alt="" width="28" height="28" class="d-inline-block align-text-top">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
@@ -35,10 +39,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('activities.index') }}">Activities</a>
+                            <a class="nav-link {{ request()->is('dashboard*') ? "active" : "" }}" href="{{ route('dashboard') }}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('usergroups.index') }}">Teams</a>
+                            <a class="nav-link {{ request()->is('activities*') ? "active" : "" }}" href="{{ route('activities.index') }}">Activities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('usergroups*') ? "active" : "" }}" href="{{ route('usergroups.index') }}">Teams</a>
                         </li>
                     </ul>
 
@@ -59,13 +66,13 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <button type="button" class="btn btn-sm btn-outline-primary position-relative">
-                                Inbox
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                    {{ $activitycount }}
+                                <a href="{{ route('activities.inbox') }}" class="btn btn-sm btn-outline-primary position-relative">
+                                    Inbox
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        {{ $activitycount }}
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
-                                </button>
+                                </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -92,6 +99,10 @@
 
         <main class="py-4">
             @yield('content')
+
+            <div class="container">
+                <br><small>MIS © 2022 | Integra</small>
+            </div>
         </main>
     </div>
 

@@ -18,7 +18,7 @@
                             </div>
                         </div>
                     </h6>
-                    <small>{{ $activity->priority }} Priority | {{ $activity->status }}</small>
+                    <small>{{ $activity->priority }} Priority | {{ $activity->status }} | Due {{ \Carbon\Carbon::parse($activity->due_date)->diffForHumans(['options' => 0]) }}</small>
                 </div>
             </div>
 
@@ -40,7 +40,7 @@
                             <div class="form-group row">
                                 {!! Form::label('due_date', 'Due Date:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('due_date', $activity->due_date, ['class'=>'control-label
+                                    <h6>{!! Form::label('due_date', \Carbon\Carbon::parse($activity->due_date)->toFormattedDateString(), ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -93,7 +93,7 @@
                         <h6>
                             <span>Sub-Activities ({{ $activity->subactivities->count() }})</span>
                             <span>
-                                <a href="{{ route('subactivities.create', $activity) }}" class="btn btn-sm btn-dark float-end">Add</a>
+                                <a href="{{ route('subactivities.create', $activity) }}" class="btn btn-sm btn-primary float-end">Add</a>
                             </span>
                         </h6>
                         <hr>
@@ -141,11 +141,16 @@
                             <strong><span style="color: red">|&nbsp;</span>Audit Trail</strong> <hr>
 
                             @foreach ($auditlogs as $auditlog)
-                                @if ($auditlog->description == "updated") 
-                                    ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br>
-                                @else
-                                    ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
+                                @if (!is_null($auditlog->causer))
+                                    @if ($auditlog->description == "updated") 
+                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br>
+                                    @else
+                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
+                                    @endif
+                                @else 
+                                    {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>    
                                 @endif
+
                             @endforeach
                         </div>
                     </div>

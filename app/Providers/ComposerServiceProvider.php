@@ -52,7 +52,7 @@ class ComposerServiceProvider extends ServiceProvider {
                 $usergroups = auth()->user()->usergroups;
 
                 foreach ($usergroups as $usergroup) {
-                    $activitycount += $usergroup->activities->count();
+                    $activitycount += $usergroup->activities->where('status', '<>', 'Completed')->count();
                 }
             }
 
