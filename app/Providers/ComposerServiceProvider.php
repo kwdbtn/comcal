@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Activity;
 use App\Models\User;
 use App\Models\UserGroup;
 use Illuminate\Support\ServiceProvider;
@@ -47,7 +46,17 @@ class ComposerServiceProvider extends ServiceProvider {
         });
 
         view()->composer('layouts.app', function ($view) {
-            $view->with('activitycount', Activity::count());
+            $activitycount = 0;
+
+            if (!is_null(auth()->user())) {
+                $usergroups = auth()->user()->usergroups;
+
+                foreach ($usergroups as $usergroup) {
+                    $activitycount += $usergroup->activities->count();
+                }
+            }
+
+            $view->with('activitycount', $activitycount);
         });
 
         view()->composer('activityactions.form', function ($view) {

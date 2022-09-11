@@ -4,18 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Activity extends Model {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
-    protected $fillable = ['description', 'due_date', 'priority', 'status', 'responsibility', 'recipient', 'remarks'];
+    protected $fillable = ['description', 'due_date', 'priority', 'status', 'responsibility', 'user_group_id', 'remarks'];
 
     public function responsibilityx() {
         return UserGroup::find($this->responsibility);
     }
 
-    public function recipientx() {
-        return UserGroup::find($this->recipient);
+    public function user_group() {
+        return $this->belongsTo(UserGroup::class);
     }
 
     public function subactivities() {
@@ -24,5 +26,13 @@ class Activity extends Model {
 
     public function actions() {
         return $this->hasMany(ActivityAction::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->useLogName('user');
     }
 }

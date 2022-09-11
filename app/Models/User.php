@@ -41,7 +41,7 @@ class User extends Authenticatable {
         'email_verified_at' => 'datetime',
     ];
 
-    public function user_group() {
+    public function usergroups() {
         return $this->belongsToMany(UserGroup::class);
     }
 }

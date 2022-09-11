@@ -64,7 +64,7 @@
                             <div class="form-group row">
                                 {!! Form::label('recipient', 'Recipient/Oversight Body:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('recipient', $activity->recipientx()->name, ['class'=>'control-label
+                                    <h6>{!! Form::label('recipient', $activity->user_group->name, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -120,13 +120,18 @@
                     <div class="card">
                         <div class="card-body" style="height: 400px; overflow: auto">
                             <strong><span style="color: red">|&nbsp;</span>Updates</strong> <hr>
-                            @foreach ($activity->actions as $action)
-                                <h6>
-                                    {{ $loop->iteration }}. {{ $action->action_taken }} <br>
-                                    &emsp;<small>{{ $action->created_at }}</small> <br>
-                                    &emsp;{{ $action->actorx()->name }}
-                                </h6>
-                            @endforeach
+
+                            @if ($activity->actions->isEmpty())
+                                No updates yet
+                            @else
+                                @foreach ($activity->actions as $action)
+                                    <h6>
+                                        {{ $loop->iteration }}. {{ $action->action_taken }} <br>
+                                        &emsp;<small>{{ $action->created_at }}</small> <br>
+                                        &emsp;{{ $action->actorx()->name }}
+                                    </h6>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -134,6 +139,14 @@
                     <div class="card">
                         <div class="card-body" style="height: 400px; overflow: auto">
                             <strong><span style="color: red">|&nbsp;</span>Audit Trail</strong> <hr>
+
+                            @foreach ($auditlogs as $auditlog)
+                                @if ($auditlog->description == "updated") 
+                                    ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br>
+                                @else
+                                    ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>

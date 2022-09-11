@@ -4,7 +4,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title"><strong>Activities</strong>
+            <h4 class="card-title"><strong>{{ $title }}</strong>
                 <span class="float-right"><a href="{{ route('activities.create') }}" class="btn btn-sm btn-dark float-end">Add New</a></span>
             </h4>
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Spatie\Activitylog\Models\Activity as AuditLog;
 
 class ActivityController extends Controller {
     /**
@@ -13,7 +14,8 @@ class ActivityController extends Controller {
      */
     public function index() {
         $activities = Activity::all();
-        return view('activities.index', compact('activities'));
+        $title      = "All Activities";
+        return view('activities.index', compact('activities', 'title'));
     }
 
     /**
@@ -32,13 +34,12 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-        // dd($request);
         $activity = Activity::create([
             'description'    => $request->description,
             'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
-            'recipient'      => $request->recipient,
+            'user_group_id'  => $request->recipient,
             'remarks'        => $request->remarks,
         ]);
 
@@ -53,13 +54,21 @@ class ActivityController extends Controller {
      */
     public function show(Activity $activity) {
         $users = $activity->responsibilityx()->users;
+
         if ($users->contains(auth()->user()) && $activity->status == "Not Started") {
+            activity()
+                ->performedOn($activity)
+                ->event('viewed')
+                ->log('viewed');
+
             $activity->update([
                 'status' => "Started",
             ]);
         }
 
-        return view('activities.show', compact('activity'));
+        $auditlogs = AuditLog::where('subject_id', $activity->id)->get();
+
+        return view('activities.show', compact('activity', 'auditlogs'));
     }
 
     /**
@@ -85,7 +94,7 @@ class ActivityController extends Controller {
             'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
             'responsibility' => $request->responsibility,
-            'recipient'      => $request->recipient,
+            'user_group_id'  => $request->recipient,
             'remarks'        => $request->remarks,
         ]);
 

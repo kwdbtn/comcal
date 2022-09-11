@@ -3,13 +3,23 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class SubActivity extends Activity {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
-    protected $fillable = ['description', 'due_date', 'completed', 'remarks'];
+    protected $fillable = ['activity_id', 'description', 'due_date', 'completed', 'remarks'];
 
     public function activity() {
         return $this->belongsTo(Activity::class);
+    }
+
+    public function getActivitylogOptions(): LogOptions {
+        return LogOptions::defaults()
+            ->logFillable()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->useLogName('user');
     }
 }
