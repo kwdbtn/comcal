@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-1">
+                    {{-- <div class="form-group row mt-1">
                             {!! Form::label('due_date', 'Due Date:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
                             <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group row mt-1">
                         {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-2 text-end'])

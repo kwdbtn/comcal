@@ -47,21 +47,21 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-1">
+                    {{-- <div class="form-group row mt-1">
                         {!! Form::label('responsibility', 'Responsibility:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
                             {{Form::select('responsibility', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group row mt-1">
-                        {!! Form::label('recipient', 'Recipient/ Oversight Body:', ['class' => 'control-label col-sm-2 text-end']) !!}
+                        {!! Form::label('recipient', 'Responsibility:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
                             {{Form::select('recipient', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mt-1">
                         {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-2 text-end'])
                         !!}
                         <div class="col-sm-8 col-md-8">

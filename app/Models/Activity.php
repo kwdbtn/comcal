@@ -10,10 +10,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class Activity extends Model {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['description', 'due_date', 'priority', 'status', 'responsibility', 'user_group_id', 'remarks', 'created_by', 'due'];
+    protected $fillable = ['description', 'due_date', 'priority', 'status', 'delegate', 'user_group_id', 'remarks', 'created_by', 'due'];
 
-    public function responsibilityx() {
-        return UserGroup::find($this->responsibility);
+    public function delegatex() {
+        return UserGroup::find($this->delegate);
     }
 
     public function user_group() {

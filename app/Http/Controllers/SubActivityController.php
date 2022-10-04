@@ -35,7 +35,7 @@ class SubActivityController extends Controller {
     public function store(Request $request, Activity $activity) {
         $activity->subactivities()->create([
             'description' => $request->description,
-            'due_date'    => date('Y-m-d', strtotime($request->due_date)),
+            // 'due_date'    => date('Y-m-d', strtotime($request->due_date)),
             'remarks'     => $request->remarks,
         ]);
 

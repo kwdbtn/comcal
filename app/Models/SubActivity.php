@@ -9,7 +9,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class SubActivity extends Activity {
     use HasFactory, LogsActivity;
 
-    protected $fillable = ['activity_id', 'description', 'due_date', 'completed', 'remarks'];
+    protected $fillable = ['activity_id', 'description', 'completed', 'remarks'];
 
     public function activity() {
         return $this->belongsTo(Activity::class);

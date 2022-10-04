@@ -28,6 +28,7 @@ Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->
 // ------------------------------------------------ Activities -------------------------------------------------------------------------
 
 Route::get('activities', [ActivityController::class, 'index'])->name('activities.index');
+// Route::get('activities/mine', [ActivityController::class, 'useractivities'])->name('activities.mine');
 Route::get('activities/inbox', [ActivityController::class, 'inbox'])->name('activities.inbox');
 Route::get('activities/create', [ActivityController::class, 'create'])->name('activities.create');
 Route::get('activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
@@ -48,10 +49,12 @@ Route::put('activities/{activity}/subactivities/{subactivity}', [SubActivityCont
 
 Route::get('activities/{activity}/actions', [ActivityActionController::class, 'index'])->name('activityactions.index');
 Route::get('activities/{activity}/actions/create', [ActivityActionController::class, 'create'])->name('activityactions.create');
+Route::get('activities/{activity}/actions/showdelegate', [ActivityActionController::class, 'showdelegate'])->name('activityactions.showdelegate');
 Route::get('activities/{activity}/actions/{activityaction}', [ActivityActionController::class, 'show'])->name('activityactions.show');
 Route::get('activities/{activity}/actions/{activityaction}/edit', [ActivityActionController::class, 'edit'])->name('activityactions.edit');
 Route::post('activities/{activity}/actions', [ActivityActionController::class, 'store'])->name('activityactions.store');
 Route::put('activities/{activity}/actions/{activityaction}', [ActivityActionController::class, 'update'])->name('activityactions.update');
+Route::put('activities/{activity}/actions/delegate', [ActivityActionController::class, 'delegate'])->name('activityactions.delegate');
 
 Route::resources([
     'usergroups' => UserGroupController::class,

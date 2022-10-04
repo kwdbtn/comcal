@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('description');
             $table->date('due_date');
             $table->string('priority');
-            $table->integer('responsibility')->unsigned();
+            $table->integer('delegate')->unsigned()->nullable();
             $table->integer('user_group_id')->unsigned();
             $table->string('status')->default("Not Started");
             $table->text('remarks')->nullable();

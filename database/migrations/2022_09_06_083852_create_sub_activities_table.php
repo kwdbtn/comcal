@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
             $table->integer('activity_id')->unsigned();
             $table->string('description');
-            $table->date('due_date');
+            // $table->date('due_date');
             $table->boolean('completed')->default(false);
             $table->text('remarks')->nullable();
             $table->timestamps();

@@ -14,8 +14,19 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $activities = Activity::orderBy('created_at', 'desc')->get();
+        if (auth()->user()->hasRole('SuperAdmin')) {
+            $activities = Activity::orderBy('created_at', 'desc')->get();
+        } else {
+            $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        }
+
         $title      = "All Activities";
+        return view('activities.index', compact('activities', 'title'));
+    }
+
+    public function useractivities() {
+        $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
+        $title      = "My Activities";
         return view('activities.index', compact('activities', 'title'));
     }
 
@@ -57,7 +68,6 @@ class ActivityController extends Controller {
             'description'    => $request->description,
             'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'responsibility' => $request->responsibility,
             'user_group_id'  => $request->recipient,
             'remarks'        => $request->remarks,
             'created_by'     => auth()->user()->id,
@@ -73,7 +83,7 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function show(Activity $activity) {
-        $users = $activity->responsibilityx()->users;
+        $users = $activity->user_group->users;
 
         if ($users->contains(auth()->user()) && $activity->status == "Not Started") {
             activity()
@@ -81,9 +91,9 @@ class ActivityController extends Controller {
                 ->event('viewed')
                 ->log('viewed');
 
-            $activity->update([
-                'status' => "Started",
-            ]);
+            // $activity->update([
+            //     'status' => "Started",
+            // ]);
         }
 
         $auditlogs = AuditLog::where('subject_id', $activity->id)->get();
@@ -113,8 +123,8 @@ class ActivityController extends Controller {
             'description'    => $request->description,
             'priority'       => $request->priority,
             'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'responsibility' => $request->responsibility,
             'user_group_id'  => $request->recipient,
+            'status' => $activity->status,
             'remarks'        => $request->remarks,
         ]);
 

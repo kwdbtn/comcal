@@ -12,7 +12,12 @@ class UserGroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $usergroups = UserGroup::all();
+        if (auth()->user()->hasRole('SuperAdmin')) {
+            $usergroups = UserGroup::all();
+        } else {
+            $usergroups = auth()->user()->usergroups;
+        }
+
         return view('usergroups.index', compact('usergroups'));
     }
 

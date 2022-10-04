@@ -64,39 +64,21 @@
 
                 <div class="card mt-2">
                     <div class="card-body">
-                        {!! Form::model($activityaction, ['method' => $activityaction->exists ? 'PUT' : 'POST', 
-                    'route' => $activityaction->exists ? ['activityactions.update', $activityaction] : ['activityactions.store', $activity],
+                        {!! Form::model($activity, ['method' => $activity->exists ? 'PUT' : 'POST', 
+                    'route' => $activity->exists ? ['activityactions.delegate', $activity] : ['activityactions.delegate', $activity],
                     'class' => 'form-horizontal'])
                     !!}
 
-                    <div class="form-group row">
-                        {!! Form::label('action_taken', 'Action taken:', ['class' => 'control-label col-sm-2 text-end'])
-                        !!}
-                        <div class="col-sm-8 col-md-8">
-                            {!! Form::textarea('action_taken', null,['class'=>'form-control col-md-7 col-xs-8
-                            ','placeholder'=>'Action taken', 'rows'=>'2']) !!}
-                        </div>
-                    </div>
-
                     <div class="form-group row mt-1">
-                        {!! Form::label('challenge', 'Challenges:', ['class' => 'control-label col-sm-2 text-end'])
-                        !!}
-                        <div class="col-sm-8 col-md-8">
-                            {!! Form::textarea('challenge', null,['class'=>'form-control col-md-7 col-xs-8
-                            ','placeholder'=>'Challenges encountered', 'rows'=>'2']) !!}
-                        </div>
-                    </div>
-
-                    <div class="form-group row mt-1">
-                        {!! Form::label('status', 'Status:', ['class' => 'control-label col-sm-2 text-end']) !!}
+                        {!! Form::label('recipient', 'Delegate to:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
-                            {{Form::select('status', $arr['status'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
+                            {{Form::select('delegate', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="offset-sm-2 mt-2">
-                            <button type="submit" class="btn btn-sm btn-dark">{{ $activityaction->exists ? @"Update" : @"Save" }}</button>
+                            <button type="submit" class="btn btn-sm btn-dark">{{ $activity->exists ? @"Update" : @"Save" }}</button>
                         </div>
                     </div>
                     {!! Form::close() !!}

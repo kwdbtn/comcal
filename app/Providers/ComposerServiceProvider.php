@@ -31,7 +31,7 @@ class ComposerServiceProvider extends ServiceProvider {
             $view->with('arr', $arr);
         });
 
-        view()->composer('activities.form', function ($view) {
+        view()->composer(['activities.form', 'activityactions.delegate'], function ($view) {
 
             $arr = [
                 'usergroups' => UserGroup::pluck('name', 'id'),
@@ -63,6 +63,7 @@ class ComposerServiceProvider extends ServiceProvider {
 
             $arr = [
                 'status' => [
+                    'Started' => 'Started',
                     'In Progress' => 'In Progress',
                     'Completed'   => 'Completed',
                 ],

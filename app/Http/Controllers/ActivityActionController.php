@@ -45,6 +45,19 @@ class ActivityActionController extends Controller {
         return redirect()->route('activities.show', $activity);
     }
 
+    public function showdelegate(Activity $activity, ActivityAction $activityaction) {
+        return view('activityactions.delegate', compact('activity', 'activityaction'));
+    }
+
+    public function delegate(Request $request, Activity $activity) {
+        $activity->update([
+            'delegate' => $request->delegate,
+        ]);
+
+        dd("Updated!");
+        return redirect()->route('activities.show', $activity);
+    }
+
     /**
      * Display the specified resource.
      *

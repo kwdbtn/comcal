@@ -31,7 +31,7 @@
                             </div>
                             <hr>
 
-                            <div class="form-group row">
+                            {{-- <div class="form-group row">
                                 {!! Form::label('due_date', 'Due Date:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
                                     <h6>{!! Form::label('due_date', \Carbon\Carbon::parse($subactivity->due_date)->toFormattedDateString(), ['class'=>'control-label
@@ -41,7 +41,7 @@
                                     </h6>
                                 </div>
                             </div>
-                            <hr>
+                            <hr> --}}
 
                             <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}

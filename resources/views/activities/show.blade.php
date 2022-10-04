@@ -10,10 +10,21 @@
                         <strong><span style="color: red">|&nbsp;</span>Activity</strong>
                         <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with button groups">
                             <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
-                                <a href="{{ route('activityactions.create', $activity) }}" class="btn btn-sm btn-primary">Update Activity</a>
+                                @if ($activity->status != "Completed")
+                                    <a href="{{ route('activityactions.create', $activity) }}" class="btn btn-sm btn-primary">Update Activity</a>
+                                @endif
                             </div>
+                            @if (is_null($activity->delegatex()))
+                                <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
+                                    @if ($activity->status != "Completed")
+                                        <a href="{{ route('activityactions.showdelegate', $activity) }}" class="btn btn-sm btn-info">Delegate</a>
+                                    @endif
+                                </div>
+                            @endif
                             <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
-                                <a href="{{ route('activities.edit', $activity) }}" class="btn btn-sm btn-warning">Edit</a>
+                                @role('Editor|SuperAdmin')
+                                    <a href="{{ route('activities.edit', $activity) }}" class="btn btn-sm btn-warning">Edit</a>
+                                @endrole
                                 <a href="{{ route('activities.index') }}" class="btn btn-sm btn-dark float-end">Back</a>
                             </div>
                         </div>
@@ -52,7 +63,7 @@
                             <div class="form-group row">
                                 {!! Form::label('responsibility', 'Responsibility:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('responsibility', $activity->responsibilityx()->name, ['class'=>'control-label
+                                    <h6>{!! Form::label('responsibility', $activity->user_group->name, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -61,10 +72,11 @@
                             </div>
                             <hr>
 
+                            @if (!is_null($activity->delegatex()))
                             <div class="form-group row">
-                                {!! Form::label('recipient', 'Recipient/Oversight Body:', ['class' => 'control-label col-sm-3']) !!}
+                                {!! Form::label('delegate', 'Delegated to:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('recipient', $activity->user_group->name, ['class'=>'control-label
+                                    <h6>{!! Form::label('delegate', $activity->delegatex()->name, ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -72,6 +84,7 @@
                                 </div>
                             </div>
                             <hr>
+                            @endif
 
                             <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}

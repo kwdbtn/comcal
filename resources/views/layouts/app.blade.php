@@ -44,9 +44,11 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->is('activities*') ? "active" : "" }}" href="{{ route('activities.index') }}">Activities</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->is('usergroups*') ? "active" : "" }}" href="{{ route('usergroups.index') }}">Teams</a>
-                        </li>
+                        {{-- @role('SuperAdmin') --}}
+                            <li class="nav-item">
+                                <a class="nav-link {{ request()->is('usergroups*') ? "active" : "" }}" href="{{ route('usergroups.index') }}">Teams</a>
+                            </li>
+                        {{-- @endrole --}}
                     </ul>
 
                     <!-- Right Side Of Navbar -->
