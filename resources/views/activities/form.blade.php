@@ -16,7 +16,9 @@
 
                     {!! Form::model($activity, ['method' => $activity->exists ? 'PUT' : 'POST', 
                     'route' => $activity->exists ? ['activities.update', $activity] : ['activities.store'],
-                    'class' => 'form-horizontal'])
+                    'class' => 'form-horizontal', 'enctype' =>
+            'Multipart/form-data',
+            'files'=>true])
                     !!}
 
                     <div class="form-group row">
@@ -58,6 +60,13 @@
                         {!! Form::label('recipient', 'Responsibility:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
                             {{Form::select('recipient', $arr['usergroups'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
+                        </div>
+                    </div>
+
+                    <div class="form-group row mt-1">
+                         {!! Form::label('attachment', 'Attachment:', ['class' => 'control-label col-sm-2 text-end']) !!}
+                        <div class="col-sm-8 col-md-8">
+                            <input name="attachment" type="file" class="form-control col-md-7 col-xs-8 result-file">
                         </div>
                     </div>
 

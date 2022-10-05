@@ -20,7 +20,7 @@ class ActivityController extends Controller {
             $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         }
 
-        $title      = "All Activities";
+        $title = "All Activities";
         return view('activities.index', compact('activities', 'title'));
     }
 
@@ -64,13 +64,18 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $fileLog     = $request->file('attachment');
+        $filenameLog = 'activity' . time() . '.' . $fileLog->getClientOriginalExtension();
+        $pathLog     = $fileLog->storeAs('AppFiles', $filenameLog);
+
         $activity = Activity::create([
-            'description'    => $request->description,
-            'priority'       => $request->priority,
-            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'user_group_id'  => $request->recipient,
-            'remarks'        => $request->remarks,
-            'created_by'     => auth()->user()->id,
+            'description'   => $request->description,
+            'priority'      => $request->priority,
+            'due_date'      => date('Y-m-d', strtotime($request->due_date)),
+            'user_group_id' => $request->recipient,
+            'remarks'       => $request->remarks,
+            'created_by'    => auth()->user()->id,
+            'attachment'    => $pathLog,
         ]);
 
         return redirect()->route('activities.show', $activity);
@@ -111,6 +116,11 @@ class ActivityController extends Controller {
         return view('activities.form', compact('activity'));
     }
 
+    public function viewfile(Activity $activity) {
+        $file = storage_path('app/' . $activity->attachment);
+        return response()->file($file);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -120,12 +130,12 @@ class ActivityController extends Controller {
      */
     public function update(Request $request, Activity $activity) {
         $activity->update([
-            'description'    => $request->description,
-            'priority'       => $request->priority,
-            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'user_group_id'  => $request->recipient,
-            'status' => $activity->status,
-            'remarks'        => $request->remarks,
+            'description'   => $request->description,
+            'priority'      => $request->priority,
+            'due_date'      => date('Y-m-d', strtotime($request->due_date)),
+            'user_group_id' => $request->recipient,
+            'status'        => $activity->status,
+            'remarks'       => $request->remarks,
         ]);
 
         return redirect()->route('activities.show', $activity);
