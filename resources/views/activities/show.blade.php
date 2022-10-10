@@ -14,13 +14,13 @@
                                     <a href="{{ route('activityactions.create', $activity) }}" class="btn btn-sm btn-primary">Update Activity</a>
                                 @endif
                             </div>
-                            @if (is_null($activity->delegatex()))
+                            {{-- @if (is_null($activity->delegatex()))
                                 <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
                                     @if ($activity->status != "Completed")
                                         <a href="{{ route('activityactions.showdelegate', $activity) }}" class="btn btn-sm btn-info">Delegate</a>
                                     @endif
                                 </div>
-                            @endif
+                            @endif --}}
                             <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
                                 @role('Editor|SuperAdmin')
                                     <a href="{{ route('activities.edit', $activity) }}" class="btn btn-sm btn-warning">Edit</a>
