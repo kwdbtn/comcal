@@ -25,12 +25,16 @@ class AppServiceProvider extends ServiceProvider {
         $activities = Activity::all();
 
         foreach ($activities as $activity) {
-            $today    = Carbon::today();
+            $today = Carbon::today();
             $somedate = Carbon::parse($activity->due_date);
 
             if ($somedate->lessThanOrEqualTo($today)) {
                 $activity->update([
                     'due' => true,
+                ]);
+            } else {
+                $activity->update([
+                    'due' => false,
                 ]);
             }
         }

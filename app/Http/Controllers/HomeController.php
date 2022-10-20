@@ -25,11 +25,44 @@ class HomeController extends Controller {
         // -------------------- All activities----------------------------------------------------------------------------
 
         $notStarted = Activity::where('status', 'Not Started')->count();
-        $started    = Activity::where('status', 'Started')->count();
+        $started = Activity::where('status', 'Started')->count();
         $inProgress = Activity::where('status', 'In Progress')->count();
-        $completed  = Activity::where('status', 'Completed')->count();
+        $completed = Activity::where('status', 'Completed')->count();
 
         $allActivitiesChart = new AllActivitiesChart;
+
+        $myActivitiesChart = new AllActivitiesChart;
+        $myActivitiesChart->dataset('My Activities', 'doughnut', [0, 0, 0, 0])
+            ->backgroundColor([
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(38, 194, 129)',
+            ]);
+
+        $teamActivityChart = new AllActivitiesChart;
+        $teamActivityChart->dataset('Team Activities', 'doughnut', [0, 0, 0, 0])
+            ->backgroundColor([
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)',
+                'rgb(38, 194, 129)',
+            ]);
+
+        $dueAllActivitiesChart = new DueAllActivitiesChart;
+        $dueAllActivitiesChart->dataset('All Activities', 'doughnut', [0, 0])
+            ->backgroundColor([
+                'rgb(255, 0, 0)',
+                'rgb(255, 205, 86)',
+            ]);
+
+        $dueMyActivitiesChart = new DueAllActivitiesChart;
+        $dueMyActivitiesChart->dataset('My Activities', 'doughnut', [0, 0])
+            ->backgroundColor([
+                'rgb(255, 0, 0)',
+                'rgb(255, 205, 86)',
+            ]);
+
         $allActivitiesChart->minimalist(true);
         $allActivitiesChart->displayLegend(true);
         $allActivitiesChart->labels(['Not Started', 'Started', 'In Progress', 'Completed']);
@@ -43,11 +76,11 @@ class HomeController extends Controller {
 
         // -------------------- My activities------------------------------------------------------------------------------
 
-        $myActivities           = [];
+        $myActivities = [];
         $myActivitiesNotStarted = 0;
-        $myActivitiesStarted    = 0;
+        $myActivitiesStarted = 0;
         $myActivitiesInProgress = 0;
-        $myActivitiesCompleted  = 0;
+        $myActivitiesCompleted = 0;
 
         foreach (auth()->user()->usergroups as $usergroup) {
             $myActivitiesNotStarted += $usergroup->activities->where('status', 'Not Started')->count();
@@ -55,7 +88,6 @@ class HomeController extends Controller {
             $myActivitiesInProgress += $usergroup->activities->where('status', 'In Progress')->count();
             $myActivitiesCompleted += $usergroup->activities->where('status', 'Completed')->count();
 
-            $myActivitiesChart = new AllActivitiesChart;
             $myActivitiesChart->minimalist(true);
             $myActivitiesChart->displayLegend(true);
             $myActivitiesChart->labels(['Not Started', 'Started', 'In Progress', 'Completed']);
@@ -74,11 +106,10 @@ class HomeController extends Controller {
 
         foreach (auth()->user()->usergroups as $usergroup) {
             $teamNotStarted = $usergroup->activities->where('status', 'Not Started')->count();
-            $teamStarted    = $usergroup->activities->where('status', 'Started')->count();
+            $teamStarted = $usergroup->activities->where('status', 'Started')->count();
             $teamInProgress = $usergroup->activities->where('status', 'In Progress')->count();
-            $teamCompleted  = $usergroup->activities->where('status', 'Completed')->count();
+            $teamCompleted = $usergroup->activities->where('status', 'Completed')->count();
 
-            $teamActivityChart = new AllActivitiesChart;
             $teamActivityChart->title($usergroup->name);
             $teamActivityChart->minimalist(true);
             $teamActivityChart->displayLegend(true);
@@ -96,10 +127,9 @@ class HomeController extends Controller {
 
         // -------------------- Due - All activities----------------------------------------------------------------------------
 
-        $dueAllActivites     = Activity::where('due', true)->count();
+        $dueAllActivites = Activity::where('due', true)->count();
         $notDueAllActivities = Activity::where('due', false)->count();
 
-        $dueAllActivitiesChart = new DueAllActivitiesChart;
         $dueAllActivitiesChart->minimalist(true);
         $dueAllActivitiesChart->displayLegend(true);
         $dueAllActivitiesChart->labels(['Due', 'Not Due']);
@@ -111,15 +141,14 @@ class HomeController extends Controller {
 
         // -------------------- Due - My activities------------------------------------------------------------------------------
 
-        $dueMyActivities    = [];
-        $dueMyActivities    = 0;
+        $dueMyActivities = [];
+        $dueMyActivities = 0;
         $notDueMyActivities = 0;
 
         foreach (auth()->user()->usergroups as $usergroup) {
             $dueMyActivities += $usergroup->activities->where('due', true)->count();
             $notDueMyActivities += $usergroup->activities->where('due', false)->count();
 
-            $dueMyActivitiesChart = new DueAllActivitiesChart;
             $dueMyActivitiesChart->minimalist(true);
             $dueMyActivitiesChart->displayLegend(true);
             $dueMyActivitiesChart->labels(['Due', 'Not Due']);

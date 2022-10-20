@@ -156,7 +156,7 @@
                             @foreach ($auditlogs as $auditlog)
                                 @if (!is_null($auditlog->causer))
                                     @if ($auditlog->description == "updated") 
-                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br>
+                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity <br> {{-- from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br> --}} 
                                     @else
                                         ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
                                     @endif

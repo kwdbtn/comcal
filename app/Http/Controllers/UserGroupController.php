@@ -12,7 +12,7 @@ class UserGroupController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        if (auth()->user()->hasRole('SuperAdmin')) {
+        if (auth()->user()->hasRole('SuperAdmin') || auth()->user()->hasRole('Editor')) {
             $usergroups = UserGroup::all();
         } else {
             $usergroups = auth()->user()->usergroups;
@@ -38,7 +38,7 @@ class UserGroupController extends Controller {
      */
     public function store(Request $request) {
         $usergroup = UserGroup::create([
-            'name'     => $request->name,
+            'name' => $request->name,
             'teamlead' => $request->teamlead,
         ]);
 

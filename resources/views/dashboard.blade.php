@@ -4,7 +4,7 @@
     <div class="container">
         <div class="card">
             <div class="card-body">
-                @role('SuperAdmin')
+                @role('SuperAdmin || Editor')
                     {{------------------------------ All Activities ---------------------------------------}}
                     <div class="col-md-12 mb-5">
                         <h4 class="text-center"><i class="fa fa-tasks" aria-hidden="true"></i> All Activities</h4>
