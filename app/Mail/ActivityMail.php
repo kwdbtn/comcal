@@ -26,6 +26,6 @@ class ActivityMail extends Mailable {
      * @return $this
      */
     public function build() {
-        return $this->subject('Business Tracker')->view('activities.mail');
+        return $this->subject('New Activity - GRIDCo Business Tracker')->view('activities.mail');
     }
 }
