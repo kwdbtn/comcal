@@ -35,6 +35,7 @@ Route::get('activities/{activity}', [ActivityController::class, 'show'])->name('
 Route::get('activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
 Route::post('activities', [ActivityController::class, 'store'])->name('activities.store');
 Route::put('activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
+Route::get('activities/{activity}/file', [ActivityController::class, 'viewfile'])->name('activities.viewfile');
 
 // ------------------------------------------------ Sub-Activities ----------------------------------------------------------------------
 

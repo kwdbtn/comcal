@@ -14,7 +14,7 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Team Lead</th>
+                            {{-- <th scope="col">Team Lead</th> --}}
                             <th scope="col">Team</th>
                             <th scope="col" class="text-center">Actions</th>
                         </tr>
@@ -25,7 +25,7 @@
                             <tr scope="row">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $usergroup->name }}</td>
-                                <td>{{ $usergroup->teamleader()->name }}</td>
+                                {{-- <td>{{ $usergroup->teamleader()->name }}</td> --}}
                                 <td>
                                     @foreach ($usergroup->users as $user)
                                         <span class="badge bg-primary">{{ $user->name }}</span>

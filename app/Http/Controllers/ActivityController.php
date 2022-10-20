@@ -20,19 +20,19 @@ class ActivityController extends Controller {
             $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         }
 
-        $title      = "All Activities";
+        $title = "All Activities";
         return view('activities.index', compact('activities', 'title'));
     }
 
     public function useractivities() {
         $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
-        $title      = "My Activities";
+        $title = "My Activities";
         return view('activities.index', compact('activities', 'title'));
     }
 
     public function inbox() {
         $inboxActivities = [];
-        $title           = 'Activities assigned to me';
+        $title = 'Activities assigned to me';
 
         $usergroups = auth()->user()->usergroups;
 
@@ -43,7 +43,7 @@ class ActivityController extends Controller {
         }
 
         $inboxActivities = new Collection($inboxActivities);
-        $activities      = new Collection($inboxActivities->where('status', '<>', 'Completed')->all());
+        $activities = new Collection($inboxActivities->where('status', '<>', 'Completed')->all());
 
         return view('activities.index', compact('activities', 'title'));
     }
@@ -64,13 +64,18 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        $fileAttachment = $request->file('attachment');
+        $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
+        $pathAttachment = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+
         $activity = Activity::create([
-            'description'    => $request->description,
-            'priority'       => $request->priority,
-            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'user_group_id'  => $request->recipient,
-            'remarks'        => $request->remarks,
-            'created_by'     => auth()->user()->id,
+            'description' => $request->description,
+            'priority' => $request->priority,
+            'due_date' => date('Y-m-d', strtotime($request->due_date)),
+            'user_group_id' => $request->recipient,
+            'remarks' => $request->remarks,
+            'created_by' => auth()->user()->id,
+            'attachment' => $pathAttachment,
         ]);
 
         return redirect()->route('activities.show', $activity);
@@ -111,6 +116,11 @@ class ActivityController extends Controller {
         return view('activities.form', compact('activity'));
     }
 
+    public function viewfile(Activity $activity) {
+        $file = storage_path('app/' . $activity->attachment);
+        return response()->file($file);
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -120,12 +130,13 @@ class ActivityController extends Controller {
      */
     public function update(Request $request, Activity $activity) {
         $activity->update([
-            'description'    => $request->description,
-            'priority'       => $request->priority,
-            'due_date'       => date('Y-m-d', strtotime($request->due_date)),
-            'user_group_id'  => $request->recipient,
+            'description' => $request->description,
+            'priority' => $request->priority,
+            'due_date' => date('Y-m-d', strtotime($request->due_date)),
+            'user_group_id' => $request->recipient,
             'status' => $activity->status,
-            'remarks'        => $request->remarks,
+            'remarks' => $request->remarks,
+            'attachment' => $pathAttachment,
         ]);
 
         return redirect()->route('activities.show', $activity);

@@ -62,6 +62,13 @@
                     </div>
 
                     <div class="form-group row mt-1">
+                        {!! Form::label('attachment', 'Attachment:', ['class' => 'control-label col-sm-2 text-end']) !!}
+                       <div class="col-sm-8 col-md-8">
+                           <input name="attachment" type="file" class="form-control col-md-7 col-xs-8 result-file">
+                       </div>
+                   </div>
+
+                    <div class="form-group row mt-1">
                         {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-2 text-end'])
                         !!}
                         <div class="col-sm-8 col-md-8">

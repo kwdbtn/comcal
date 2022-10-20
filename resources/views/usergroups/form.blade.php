@@ -28,12 +28,12 @@
                         </div>
                     </div>
 
-                    <div class="form-group row mt-1">
+                    {{-- <div class="form-group row mt-1">
                         {!! Form::label('teamlead', 'Team Lead:', ['class' => 'control-label col-sm-2 text-end']) !!}
                         <div class="col-sm-8">
                             {{Form::select('teamlead', $arr['users'], null, ['class' => 'form-control col-md-12 col-xs-12'])}}
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group row mt-1">
                         {!! Form::label('user_id', 'Team:', ['class' => 'control-label col-sm-2 text-end']) !!}

@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('user_group_id')->unsigned();
             $table->string('status')->default("Not Started");
             $table->text('remarks')->nullable();
+            $table->string('attachment')->nullable();
             $table->integer('created_by')->unsigned();
             $table->boolean('due')->default(false);
             $table->timestamps();

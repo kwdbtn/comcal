@@ -87,6 +87,19 @@
                             @endif
 
                             <div class="form-group row">
+                                {!! Form::label('attachment', 'Attachment', ['class' => 'control-label col-sm-3 text-right']) !!}
+                                <div class="col-sm-9">
+                                    <strong>
+                                        <a href="{{ route('activities.viewfile', $activity) }}" target="_blank"
+                                            class='col-md-7 col-xs-12'>View
+                                            Attachment
+                                        </a>
+                                    </strong>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
                                     <h6>{!! Form::label('remarks', $activity->remarks, ['class'=>'control-label
