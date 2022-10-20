@@ -9,11 +9,17 @@
                     <h6>
                         <strong><span style="color: red">|&nbsp;</span>Activity</strong>
                         <div class="btn-toolbar float-end" role="toolbar" aria-label="Toolbar with button groups">
+                            @role('SuperAdmin')
+                                <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
+                                    <a href="{{ route('activities.send-email', $activity) }}" class="btn btn-sm btn-info">Send Email</a>
+                                </div>
+                            @endrole
                             <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
                                 @if ($activity->status != "Completed")
                                     <a href="{{ route('activityactions.create', $activity) }}" class="btn btn-sm btn-primary">Update Activity</a>
                                 @endif
                             </div>
+
                             {{-- @if (is_null($activity->delegatex()))
                                 <div class="btn-group me-2" role="group" aria-label="Basic mixed styles example">
                                     @if ($activity->status != "Completed")
@@ -86,6 +92,7 @@
                             <hr>
                             @endif
 
+                            @if (!is_null($activity->attachment))
                             <div class="form-group row">
                                 {!! Form::label('attachment', 'Attachment', ['class' => 'control-label col-sm-3 text-right']) !!}
                                 <div class="col-sm-9">
@@ -98,11 +105,12 @@
                                 </div>
                             </div>
                             <hr>
+                            @endif
 
                             <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('remarks', $activity->remarks, ['class'=>'control-label
+                                    <h6>{!! Form::label('remarks', (is_null($activity->remarks) ? "No remarks" : $activity->remarks), ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}
@@ -148,7 +156,7 @@
                             <strong><span style="color: red">|&nbsp;</span>Updates</strong> <hr>
 
                             @if ($activity->actions->isEmpty())
-                                No updates yet
+                                No updates yet...
                             @else
                                 @foreach ($activity->actions as $action)
                                     <h6>
@@ -168,10 +176,12 @@
 
                             @foreach ($auditlogs as $auditlog)
                                 @if (!is_null($auditlog->causer))
-                                    @if ($auditlog->description == "updated") 
-                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity <br> {{-- from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br> --}} 
-                                    @else
-                                        ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
+                                    @if($auditlog->causer->name != "Kwadwo Akuamoah Boateng")
+                                        @if ($auditlog->description == "updated") 
+                                            ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity <br> {{-- from '{{ $auditlog->changes['old']['status'] }}' to '{{ $auditlog->changes['attributes']['status'] }}' @ {{ $auditlog->created_at }}<br> --}} 
+                                        @else
+                                            ~ {{ $auditlog->causer->name }} {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>
+                                        @endif
                                     @endif
                                 @else 
                                     {{ $auditlog->description }} this activity @ {{ $auditlog->created_at }}<br>    

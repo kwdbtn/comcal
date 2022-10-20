@@ -74,7 +74,7 @@
                         !!}
                         <div class="col-sm-8 col-md-8">
                             {!! Form::textarea('action_taken', null,['class'=>'form-control col-md-7 col-xs-8
-                            ','placeholder'=>'Action taken', 'rows'=>'2']) !!}
+                            ','placeholder'=>'Action taken', 'rows'=>'2', 'required']) !!}
                         </div>
                     </div>
 

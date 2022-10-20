@@ -33,7 +33,7 @@
                                 </td>
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('usergroups.show', $usergroup) }}" class="btn btn-sm btn-primary">View</a>
+                                        {{-- <a href="{{ route('usergroups.show', $usergroup) }}" class="btn btn-sm btn-primary">View</a> --}}
                                     <a href="{{ route('usergroups.edit', $usergroup) }}" class="btn btn-sm btn-warning">Edit</a>
                                     </div>
                                 </td>

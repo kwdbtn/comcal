@@ -46,7 +46,7 @@
                             <div class="form-group row">
                                 {!! Form::label('remarks', 'Remarks:', ['class' => 'control-label col-sm-3']) !!}
                                 <div class="col-sm-9">
-                                    <h6>{!! Form::label('remarks', $subactivity->remarks, ['class'=>'control-label
+                                    <h6>{!! Form::label('remarks', (is_null($subactivity->remarks) ? "No remarks" : $subactivity->remarks), ['class'=>'control-label
                                         col-md-12
                                         col-xs-12'])
                                         !!}

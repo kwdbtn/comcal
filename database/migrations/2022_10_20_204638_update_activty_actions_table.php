@@ -11,8 +11,8 @@ return new class extends Migration {
      * @return void
      */
     public function up() {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->string('attachment')->nullable();
+        Schema::table('activity_actions', function (Blueprint $table) {
+            $table->text('challenge')->nullable()->change();
         });
     }
 
@@ -22,8 +22,8 @@ return new class extends Migration {
      * @return void
      */
     public function down() {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->dropColumn('attachment');
+        Schema::table('activity_actions', function (Blueprint $table) {
+            //
         });
     }
 };

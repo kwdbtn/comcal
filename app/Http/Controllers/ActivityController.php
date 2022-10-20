@@ -3,11 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\User;
+use function PHPUnit\Framework\isNull;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity as AuditLog;
 
 class ActivityController extends Controller {
+
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -26,13 +33,13 @@ class ActivityController extends Controller {
 
     public function useractivities() {
         $activities = Activity::where('created_by', auth()->user()->id)->orderBy('created_at', 'desc')->get();
-        $title = "My Activities";
+        $title      = "My Activities";
         return view('activities.index', compact('activities', 'title'));
     }
 
     public function inbox() {
         $inboxActivities = [];
-        $title = 'Activities assigned to me';
+        $title           = 'Activities assigned to me';
 
         $usergroups = auth()->user()->usergroups;
 
@@ -43,7 +50,7 @@ class ActivityController extends Controller {
         }
 
         $inboxActivities = new Collection($inboxActivities);
-        $activities = new Collection($inboxActivities->where('status', '<>', 'Completed')->all());
+        $activities      = new Collection($inboxActivities->where('status', '<>', 'Completed')->all());
 
         return view('activities.index', compact('activities', 'title'));
     }
@@ -64,19 +71,33 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
+        // dd($request);
         $fileAttachment = $request->file('attachment');
-        $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
-        $pathAttachment = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+
+        if (!isNull($fileAttachment)) {
+            $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
+            $pathAttachment     = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+        } else {
+            $pathAttachment = null;
+        }
 
         $activity = Activity::create([
-            'description' => $request->description,
-            'priority' => $request->priority,
-            'due_date' => date('Y-m-d', strtotime($request->due_date)),
+            'description'   => $request->description,
+            'priority'      => $request->priority,
+            'due_date'      => date('Y-m-d', strtotime($request->due_date)),
             'user_group_id' => $request->recipient,
-            'remarks' => $request->remarks,
-            'created_by' => auth()->user()->id,
-            'attachment' => $pathAttachment,
+            'remarks'       => $request->remarks,
+            'created_by'    => auth()->user()->id,
+            'attachment'    => $pathAttachment,
         ]);
+
+        $userGroup = $activity->user_group;
+
+        foreach ($userGroup->users as $user) {
+            $this->sendEmail($user, $activity);
+        }
+
+        // foreach ($activity->user_group )
 
         return redirect()->route('activities.show', $activity);
     }
@@ -118,7 +139,11 @@ class ActivityController extends Controller {
 
     public function viewfile(Activity $activity) {
         $file = storage_path('app/' . $activity->attachment);
-        return response()->file($file);
+        // return response()->file($file);
+        return response()->make(file_get_contents($file), 200, [
+            'Content-Type' => 'application/pdf', //Change according to the your file type
+            'Content-Disposition' => 'inline; filename="' . $activity->attachment . '"',
+        ]);
     }
 
     /**
@@ -129,17 +154,40 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Activity $activity) {
+        $fileAttachment     = $request->file('attachment');
+        $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
+        $pathAttachment     = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+
         $activity->update([
-            'description' => $request->description,
-            'priority' => $request->priority,
-            'due_date' => date('Y-m-d', strtotime($request->due_date)),
+            'description'   => $request->description,
+            'priority'      => $request->priority,
+            'due_date'      => date('Y-m-d', strtotime($request->due_date)),
             'user_group_id' => $request->recipient,
-            'status' => $activity->status,
-            'remarks' => $request->remarks,
-            'attachment' => $pathAttachment,
+            'status'        => $activity->status,
+            'remarks'       => $request->remarks,
+            'attachment'    => $pathAttachment,
         ]);
 
         return redirect()->route('activities.show', $activity);
+    }
+
+    public function sendEmail(User $recipient, Activity $activity) {
+        $data = [
+            'title'     => "Business Tracker",
+            'activity'  => $activity,
+            'recipient' => $recipient->name,
+        ];
+
+        \Mail::to($recipient->email)->send(new \App\Mail\ActivityMail($data));
+        echo "Email has been sent!";
+    }
+
+    public function sendActivity(Activity $activity) {
+        foreach ($activity->user_group->users as $user) {
+            $this->sendEmail($user, $activity);
+        }
+
+        return redirect()->back();
     }
 
     /**
