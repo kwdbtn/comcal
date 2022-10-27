@@ -154,9 +154,14 @@ class ActivityController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Activity $activity) {
-        $fileAttachment     = $request->file('attachment');
-        $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
-        $pathAttachment     = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+        $fileAttachment = $request->file('attachment');
+
+        if (!isNull($fileAttachment)) {
+            $filenameAttachment = 'activity' . time() . '.' . $fileAttachment->getClientOriginalExtension();
+            $pathAttachment     = $fileAttachment->storeAs('AppFiles', $filenameAttachment);
+        } else {
+            $pathAttachment = null;
+        }
 
         $activity->update([
             'description'   => $request->description,
