@@ -22,20 +22,22 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        $activities = Activity::all();
+        if (auth()->check()) {
+            $activities = Activity::all();
 
-        foreach ($activities as $activity) {
-            $today = Carbon::today();
-            $somedate = Carbon::parse($activity->due_date);
+            foreach ($activities as $activity) {
+                $today = Carbon::today();
+                $somedate = Carbon::parse($activity->due_date);
 
-            if ($somedate->lessThanOrEqualTo($today)) {
-                $activity->update([
-                    'due' => true,
-                ]);
-            } else {
-                $activity->update([
-                    'due' => false,
-                ]);
+                if ($somedate->lessThanOrEqualTo($today)) {
+                    $activity->update([
+                        'due' => true,
+                    ]);
+                } else {
+                    $activity->update([
+                        'due' => false,
+                    ]);
+                }
             }
         }
     }
